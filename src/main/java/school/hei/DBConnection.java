@@ -1,14 +1,19 @@
 package school.hei;
 
-public class DBConnection {
-    public String URL;
-    public String user;
-    public String password;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-    public DBConnection(String URL, String user, String password) {
-        this.URL = URL;
-        this.user = user;
-        this.password = password;
+public class DBConnection {
+    private String url = "jdbc:postgresql://localhost:5432/mini_dish_db";
+    private String user = "mini_dish_db_manager";
+    private String password = "123456";
+
+    public DBConnection() {
+    }
+
+    public Connection getDBConnection () throws SQLException {
+        return DriverManager.getConnection(url, user, password);
     }
 
 }
