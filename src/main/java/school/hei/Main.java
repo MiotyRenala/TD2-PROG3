@@ -8,7 +8,6 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         DBConnection db = new DBConnection();
-
         try {
             Connection conn = db.getDBConnection();
             System.out.println("Welcome Mioty");
