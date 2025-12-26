@@ -8,11 +8,19 @@ public class Dish {
     private DishTypeEnum dishType;
     private List<Ingredient> ingredient;
 
-    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredient) {
+    public Dish(int id, String name, DishTypeEnum dishType) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
-        this.ingredient = ingredient;
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dishType=" + dishType +
+                '}';
     }
 
     public int getId() {
