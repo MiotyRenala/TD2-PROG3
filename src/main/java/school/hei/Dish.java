@@ -8,10 +8,12 @@ public class Dish {
     private DishTypeEnum dishType;
     private List<Ingredient> ingredient;
 
-    public Dish(int id, String name, DishTypeEnum dishType) {
+
+    public Dish(int id, String name, DishTypeEnum dishType,List<Ingredient> ingredient ) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
+        this.ingredient = ingredient;
     }
 
     @Override
@@ -20,6 +22,7 @@ public class Dish {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dishType=" + dishType +
+                ", ingredient=" + ingredient +
                 '}';
     }
 

@@ -8,12 +8,22 @@ public class Ingredient {
     private CategoryEnum category;
     private Dish dish;
 
-    public Ingredient(Integer id, String name, double price, CategoryEnum category, Dish dish) {
+    public Ingredient(Integer id, String name, double price, CategoryEnum category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.dish = dish;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                '}';
     }
 
     public String getDishName(){

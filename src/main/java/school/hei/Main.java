@@ -17,6 +17,7 @@ public class Main {
 
         DataRetriever dr = new DataRetriever();
 
-        dr.findDishById(3);
+        dr.findDishById(4);
+        dr.getIngredientfromId(4);
     }
 }
