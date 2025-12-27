@@ -42,22 +42,21 @@ public class DataRetriever {
     }
 
 
-    public Dish findDishById(Integer id){
+    public Dish findDishById(Integer id) {
         List<Ingredient> ingredientList = new ArrayList<>();
         String sql = "SELECT d.id, d.name, d.dish_type, i.name from Dish d " +
                 "INNER JOIN Ingredient i  on i.id_dish = d.id where d.id = ?";
         Dish dishById = null;
         DBConnection db = new DBConnection();
-        try{
+        try {
             Connection conn = db.getDBConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1,id);
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
-            while (rs.next()){
-                String nameDish =rs.getString("name");
+            while (rs.next()) {
+                String nameDish = rs.getString("name");
                 String dish_type = rs.getString("dish_type");
                 DishTypeEnum dishTypeEnum = DishTypeEnum.valueOf(dish_type);
-
 
 
                 dishById = new Dish(id, nameDish, dishTypeEnum, getIngredientfromId(id));
@@ -66,11 +65,15 @@ public class DataRetriever {
             System.out.println(dishById);
 
 
+            if (!rs.next()) {
+                throw new RuntimeException();
 
+
+            }
+            return dishById;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return dishById;
     }
 
     public DataRetriever() {
