@@ -30,7 +30,6 @@ public class DataRetriever {
 
             }
 
-            System.out.println(ingredientList);
             rs.close();
             stmt.close();
             conn.close();
@@ -65,7 +64,6 @@ public class DataRetriever {
 
             }
             System.out.println(dishById);
-
 
 
 
