@@ -76,6 +76,39 @@ public class DataRetriever {
         }
     }
 
+    public List<Ingredient> findIngredient(int page, int size){
+        String sql = "Select id, name , price, category from ingredient order by id OFFSET = ? " +
+                "LIMIT = ?  ";
+        List<Ingredient> ingredient = null;
+        DBConnection db = new DBConnection();
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1,page);
+            stmt.setInt(2,size);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                String name = rs.getString("name");
+                Double price = rs.getDouble("price");
+                String category = rs.getString("category");
+                CategoryEnum categoryEnum = CategoryEnum.valueOf(category);
+
+                Ingredient ingredientFinal = new Ingredient(id, name, price, categoryEnum);
+                ingredient.add(ingredientFinal);
+            }
+            System.out.println(ingredient);
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ingredient;
+
+    }
+    
+
     public DataRetriever() {
 
     }

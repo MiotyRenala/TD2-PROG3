@@ -19,5 +19,6 @@ public class Main {
 
         dr.findDishById(1);
         dr.findDishById(999);
+        dr.findIngredient(1,3);
     }
 }
