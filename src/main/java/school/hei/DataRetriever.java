@@ -107,6 +107,29 @@ public class DataRetriever {
         return ingredient;
 
     }
+
+    public List<Ingredient> createIngredient(List<Ingredient> newIngredient){
+        String sql = "INSERT INTO Ingredient(id, name, price, category, dish) VALUES(?,?,?,?,?)";
+        DBConnection db = new DBConnection();
+
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            for(Ingredient i : newIngredient ){
+                stmt.setInt(1, i.getId());
+                stmt.setString(2, i.getName());
+                stmt.setDouble(3, i.getPrice());
+                stmt.setString(4, i.getCategory().name());
+                stmt.setInt(5, i.getDish().getId());
+
+            }
+
+
+        }
+        catch (Exception e){
+            throw new RuntimeException();
+        }
+    }
     
 
     public DataRetriever() {
