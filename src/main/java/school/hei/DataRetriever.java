@@ -84,7 +84,7 @@ public class DataRetriever {
         try {
             Connection conn = db.getDBConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1,page*(size-1));
+            stmt.setInt(1,(page-1)*size);
             stmt.setInt(2,size);
 
             ResultSet rs = stmt.executeQuery();
