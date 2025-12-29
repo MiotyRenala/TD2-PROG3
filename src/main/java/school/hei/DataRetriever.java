@@ -42,7 +42,7 @@ public class DataRetriever {
     }
 
 
-    public Dish findDishById(Integer id) {
+    public Dish findDishById(Integer id) throws SQLException,RuntimeException {
         List<Ingredient> ingredientList = new ArrayList<>();
         String sql = "SELECT d.id, d.name, d.dish_type, i.name from Dish d " +
                 "INNER JOIN Ingredient i  on i.id_dish = d.id where d.id = ?";
@@ -53,6 +53,10 @@ public class DataRetriever {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
+            if (!rs.next()) {
+                throw new RuntimeException();
+
+            }
             while (rs.next()) {
                 String nameDish = rs.getString("name");
                 String dish_type = rs.getString("dish_type");
@@ -65,26 +69,22 @@ public class DataRetriever {
             System.out.println(dishById);
 
 
-            if (!rs.next()) {
-                throw new RuntimeException();
 
-
-            }
             return dishById;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
     public List<Ingredient> findIngredient(int page, int size){
-        String sql = "Select id, name , price, category from ingredient order by id OFFSET = ? " +
-                "LIMIT = ?  ";
-        List<Ingredient> ingredient = null;
+        String sql = "Select id, name , price, category from ingredient order by id OFFSET ? " +
+                "LIMIT ?  ";
+        List<Ingredient> ingredient = new ArrayList<Ingredient>();
         DBConnection db = new DBConnection();
         try {
             Connection conn = db.getDBConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1,page);
+            stmt.setInt(1,page*(size-1));
             stmt.setInt(2,size);
 
             ResultSet rs = stmt.executeQuery();

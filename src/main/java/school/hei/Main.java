@@ -11,14 +11,20 @@ public class Main {
         try {
             Connection conn = db.getDBConnection();
             System.out.println("Welcome Mioty");
-        } catch (SQLException e) {
+
+            DataRetriever dr = new DataRetriever();
+            dr.findDishById(1);
+            //dr.findDishById(999);
+            dr.findIngredient(2,2);
+            dr.findIngredient(3,5);
+
+        } catch (Exception e) {
+            e.printStackTrace();// sout pour les exceptions
             throw new RuntimeException(e);
         }
 
-        DataRetriever dr = new DataRetriever();
 
-        dr.findDishById(1);
-        dr.findDishById(999);
-        dr.findIngredient(1,3);
+
+
     }
 }
