@@ -13,6 +13,13 @@ public class Ingredient {
         this.name = name;
         this.price = price;
         this.category = category;
+    }
+
+    public Ingredient(Integer id, String name, double price, CategoryEnum category, Dish dish) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.category = category;
         this.dish = dish;
     }
 

@@ -8,8 +8,11 @@ public class Dish {
     private DishTypeEnum dishType;
     private List<Ingredient> ingredient;
 
+    public Dish(int id) {
+        this.id = id;
+    }
 
-    public Dish(int id, String name, DishTypeEnum dishType,List<Ingredient> ingredient ) {
+    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredient ) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;

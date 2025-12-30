@@ -25,6 +25,7 @@ public class DataRetriever {
                 Double price = rs.getDouble("price");
                 String category = rs.getString("category");
                 CategoryEnum categoryEnum = CategoryEnum.valueOf(category);
+                Integer id_dish = rs.getInt("id");
                 Ingredient ingredients = new Ingredient(id_ingredient, name, price, categoryEnum);
                 ingredientList.add(ingredients);
 
@@ -110,32 +111,35 @@ public class DataRetriever {
 
     }
 
-//    public List<Ingredient> createIngredient(List<Ingredient> newIngredient){
-//        String sql = "INSERT INTO Ingredient(id, name, price, category, dish) VALUES(?,?,?,?,?)";
-//        DBConnection db = new DBConnection();
-//
-//        try {
-//            Connection conn = db.getDBConnection();
-//            PreparedStatement stmt = conn.prepareStatement(sql);
-//            for(Ingredient i : newIngredient ){
-//                stmt.setInt(1, i.getId());
-//                stmt.setString(2, i.getName());
-//                stmt.setDouble(3, i.getPrice());
-//                stmt.setString(4, i.getCategory().name());
-//                stmt.setInt(5, i.getDish().getId());
-//                stmt.addBatch();
-//
-//            }
-//            stmt.executeUpdate();
-//
-//            System.out.println("Test d'insertion réussie");
-//
-//
-//        }
-//        catch (Exception e){
-//            throw new RuntimeException();
-//        }
-//    }
+    public List<Ingredient> createIngredient(List<Ingredient> newIngredient){
+        String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
+        DBConnection db = new DBConnection();
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            for(Ingredient i : newIngredient ){
+                stmt.setInt(1, i.getId());
+                stmt.setString(2, i.getName());
+                stmt.setDouble(3, i.getPrice());
+                stmt.setString(4, i.getCategory().name());
+                stmt.setInt(5, i.getDish().getId());
+                stmt.addBatch();
+                ingredients.add(i);
+            }
+            stmt.executeBatch();
+
+
+            System.out.println("Test d'insertion réussie");
+
+
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        return ingredients;
+    }
     
 
     public DataRetriever() {
