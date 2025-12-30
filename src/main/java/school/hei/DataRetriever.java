@@ -68,7 +68,7 @@ public class DataRetriever {
             }
             System.out.println(dishById);
 
-
+            conn.close();
 
             return dishById;
         } catch (SQLException e) {
@@ -100,6 +100,8 @@ public class DataRetriever {
             }
             System.out.println(ingredient);
 
+            conn.close();
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -108,28 +110,32 @@ public class DataRetriever {
 
     }
 
-    public List<Ingredient> createIngredient(List<Ingredient> newIngredient){
-        String sql = "INSERT INTO Ingredient(id, name, price, category, dish) VALUES(?,?,?,?,?)";
-        DBConnection db = new DBConnection();
-
-        try {
-            Connection conn = db.getDBConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            for(Ingredient i : newIngredient ){
-                stmt.setInt(1, i.getId());
-                stmt.setString(2, i.getName());
-                stmt.setDouble(3, i.getPrice());
-                stmt.setString(4, i.getCategory().name());
-                stmt.setInt(5, i.getDish().getId());
-
-            }
-
-
-        }
-        catch (Exception e){
-            throw new RuntimeException();
-        }
-    }
+//    public List<Ingredient> createIngredient(List<Ingredient> newIngredient){
+//        String sql = "INSERT INTO Ingredient(id, name, price, category, dish) VALUES(?,?,?,?,?)";
+//        DBConnection db = new DBConnection();
+//
+//        try {
+//            Connection conn = db.getDBConnection();
+//            PreparedStatement stmt = conn.prepareStatement(sql);
+//            for(Ingredient i : newIngredient ){
+//                stmt.setInt(1, i.getId());
+//                stmt.setString(2, i.getName());
+//                stmt.setDouble(3, i.getPrice());
+//                stmt.setString(4, i.getCategory().name());
+//                stmt.setInt(5, i.getDish().getId());
+//                stmt.addBatch();
+//
+//            }
+//            stmt.executeUpdate();
+//
+//            System.out.println("Test d'insertion réussie");
+//
+//
+//        }
+//        catch (Exception e){
+//            throw new RuntimeException();
+//        }
+//    }
     
 
     public DataRetriever() {
