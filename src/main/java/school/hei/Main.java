@@ -21,12 +21,10 @@ public class Main {
             dr.findIngredient(3,5);
 
             List<Ingredient> ingredients = new ArrayList<>();
-            Dish patateDish = new Dish(1);
-            Dish fromageDish = new Dish(1);
-            Ingredient patate = new Ingredient(6, "patate", 700, CategoryEnum.VEGETABLE, patateDish);
-            Ingredient Fromage = new Ingredient( 7,"Fromage", 3900, CategoryEnum.DAIRY, fromageDish);
-            ingredients.add(patate);
-            ingredients.add(Fromage);
+            Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE);
+            Ingredient Laitue = new Ingredient( 9,"Laitue", 2000, CategoryEnum.DAIRY);
+            ingredients.add(ble);
+            ingredients.add(Laitue);
 
             dr.createIngredient(ingredients);
 

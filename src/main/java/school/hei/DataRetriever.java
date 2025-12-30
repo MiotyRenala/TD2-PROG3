@@ -139,7 +139,7 @@ public class DataRetriever {
         DBConnection db = new DBConnection();
         Connection conn = db.getDBConnection();
 
-        String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
+        String sql = "INSERT INTO Ingredient(id, name, price, category) VALUES(?,?,?,?::ingredient_category)";
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
         try {
@@ -149,21 +149,23 @@ public class DataRetriever {
                 for(Ingredient i : newIngredient ){
                     if(getAllIngredient().contains(i.getName())){
                         conn.rollback();
-                        System.out.println("Ingredient déjà existant");
+                        System.out.println("Cet Ingredient existe déjà");
+                        throw new RuntimeException("Cet Ingredient existe déjà");
                     }else {
                         stmt.setInt(1, i.getId());
                         stmt.setString(2, i.getName());
                         stmt.setDouble(3, i.getPrice());
                         stmt.setString(4, i.getCategory().name());
-                        stmt.setInt(5, i.getDish().getId());
                         stmt.addBatch();
                         ingredients.add(i);
+
                     }
 
-                    stmt.executeBatch();
-                    conn.commit();
-                    System.out.println("Insertion réussie");
+
                 }
+                stmt.executeBatch();
+                conn.commit();
+                System.out.println("Insertion réussie");
 
             }
 
@@ -172,7 +174,9 @@ public class DataRetriever {
 
         }
         catch (Exception e){
+            conn.rollback();
             throw new RuntimeException(e);
+
         }
         return ingredients;
     }
