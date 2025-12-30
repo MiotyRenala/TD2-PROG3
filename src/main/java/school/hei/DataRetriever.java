@@ -111,23 +111,18 @@ public class DataRetriever {
 
     }
 
-    public List<Ingredient> getAllIngredient() throws SQLException{
+    public List<String> getAllIngredient() throws SQLException{
         DBConnection db = new DBConnection();
         String sql = "Select id, name, price, category, id_dish from ingredient";
-        List<Ingredient> ingredientList = new ArrayList<>();
+        List<String> ingredientListName = new ArrayList<>();
         try{
             Connection conn = db.getDBConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()){
-                Integer id = rs.getInt("id");
                 String name = rs.getString("name");
-                Double price = rs.getDouble("price");
-                String category = rs.getString("category");
-                CategoryEnum categoryEnum = CategoryEnum.valueOf(category);
 
-                Ingredient ingredient = new Ingredient(id, name, price, categoryEnum);
-                ingredientList.add(ingredient);
+                ingredientListName.add(name);
 
             }
 
@@ -136,43 +131,43 @@ public class DataRetriever {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return ingredientList;
+        return ingredientListName;
     }
 
 
     public List<Ingredient> createIngredient(List<Ingredient> newIngredient) throws SQLException{
         DBConnection db = new DBConnection();
         Connection conn = db.getDBConnection();
-        conn.setAutoCommit(false);
+
         String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
         try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            for(Ingredient i : newIngredient ){
-                stmt.setInt(1, i.getId());
-                stmt.setString(2, i.getName());
-                stmt.setDouble(3, i.getPrice());
-                stmt.setString(4, i.getCategory().name());
-                stmt.setInt(5, i.getDish().getId());
-                stmt.addBatch();
-                ingredients.add(i);
-                stmt.executeBatch();
+            PreparedStatement stmt = conn.prepareStatement(sql);{
+                conn.setAutoCommit(false);
 
-                for(Ingredient ingredient : getAllIngredient()){
-                    if(i == ingredient){
+                for(Ingredient i : newIngredient ){
+                    if(getAllIngredient().contains(i.getName())){
                         conn.rollback();
+                        System.out.println("Ingredient déjà existant");
                     }else {
-                        conn.commit();
+                        stmt.setInt(1, i.getId());
+                        stmt.setString(2, i.getName());
+                        stmt.setDouble(3, i.getPrice());
+                        stmt.setString(4, i.getCategory().name());
+                        stmt.setInt(5, i.getDish().getId());
+                        stmt.addBatch();
+                        ingredients.add(i);
                     }
+
+                    stmt.executeBatch();
+                    conn.commit();
+                    System.out.println("Insertion réussie");
                 }
+
             }
 
 
-
-
-
-            System.out.println("Test d'insertion réussie");
 
 
         }
