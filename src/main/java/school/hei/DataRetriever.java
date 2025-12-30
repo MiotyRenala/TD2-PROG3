@@ -111,13 +111,43 @@ public class DataRetriever {
 
     }
 
-    public List<Ingredient> createIngredient(List<Ingredient> newIngredient){
-        String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
+    public List<Ingredient> getAllIngredient() throws SQLException{
         DBConnection db = new DBConnection();
+        String sql = "Select id, name, price, category, id_dish from ingredient";
+        List<Ingredient> ingredientList = new ArrayList<>();
+        try{
+            Connection conn = db.getDBConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                String name = rs.getString("name");
+                Double price = rs.getDouble("price");
+                String category = rs.getString("category");
+                CategoryEnum categoryEnum = CategoryEnum.valueOf(category);
+
+                Ingredient ingredient = new Ingredient(id, name, price, categoryEnum);
+                ingredientList.add(ingredient);
+
+            }
+
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ingredientList;
+    }
+
+
+    public List<Ingredient> createIngredient(List<Ingredient> newIngredient) throws SQLException{
+        DBConnection db = new DBConnection();
+        Connection conn = db.getDBConnection();
+        conn.setAutoCommit(false);
+        String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
         try {
-            Connection conn = db.getDBConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             for(Ingredient i : newIngredient ){
                 stmt.setInt(1, i.getId());
@@ -127,8 +157,19 @@ public class DataRetriever {
                 stmt.setInt(5, i.getDish().getId());
                 stmt.addBatch();
                 ingredients.add(i);
+                stmt.executeBatch();
+
+                for(Ingredient ingredient : getAllIngredient()){
+                    if(i == ingredient){
+                        conn.rollback();
+                    }else {
+                        conn.commit();
+                    }
+                }
             }
-            stmt.executeBatch();
+
+
+
 
 
             System.out.println("Test d'insertion réussie");
