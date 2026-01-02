@@ -139,7 +139,7 @@ public class DataRetriever {
         DBConnection db = new DBConnection();
         Connection conn = db.getDBConnection();
 
-        String sql = "INSERT INTO Ingredient(id, name, price, category) VALUES(?,?,?,?::ingredient_category)";
+        String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
         List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
         try {
@@ -156,6 +156,7 @@ public class DataRetriever {
                         stmt.setString(2, i.getName());
                         stmt.setDouble(3, i.getPrice());
                         stmt.setString(4, i.getCategory().name());
+                        stmt.setInt(5,i.getDish().getId());
                         stmt.addBatch();
                         ingredients.add(i);
 
@@ -181,25 +182,45 @@ public class DataRetriever {
         return ingredients;
     }
 
-    public Dish saveDish(Dish dishToSave) throws SQLException {
-        DBConnection db = new DBConnection();
-        Connection conn = db.getDBConnection();
-        String sql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::type_of_Dishes)";
-        PreparedStatement stmt = conn.prepareStatement(sql);
 
-        try{
-            stmt.setInt(1, dishToSave.getId() );
-            stmt.setString(2,dishToSave.getName());
-            stmt.setString(3,dishToSave.getDishType().name());
-            stmt.executeUpdate();
 
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return dishToSave;
-    }
-    
+//    public Dish saveDish(Dish dishToSave) throws SQLException {
+//        DBConnection db = new DBConnection();
+//        Connection conn = db.getDBConnection();
+//        String createDishsql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::type_of_Dishes)";
+//        //String getIngredientsql ="INSERT INTO ingredient(id,name,price, category, id_dish) VALUES (?,?,?,?::ingredient_category,?)";
+//
+//        conn.setAutoCommit(false); // transaction
+//
+//        try{
+//            PreparedStatement Dishstmt = conn.prepareStatement(createDishsql);
+//            Dishstmt.setInt(1, dishToSave.getId() );
+//            Dishstmt.setString(2,dishToSave.getName());
+//            Dishstmt.setString(3,dishToSave.getDishType().name());
+//            Dishstmt.executeUpdate();
+//
+//
+//
+//
+//
+//        }
+//        catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return dishToSave;
+//    }
+//
+//    public List<Dish> findDishsByIngredientName(String IngredientName){
+//        DBConnection db = new DBConnection();
+//        String sql = "SELECT "
+//        try {
+//            Connection conn = db.getDBConnection();
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
 
     public DataRetriever() {
 

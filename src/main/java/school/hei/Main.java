@@ -20,16 +20,24 @@ public class Main {
             dr.findIngredient(2,2);
             dr.findIngredient(3,5);
 
-            /**List<Ingredient> ingredients = new ArrayList<>();
-            Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE);
-            Ingredient Laitue = new Ingredient( 9,"Laitue", 2000, CategoryEnum.DAIRY);
-            ingredients.add(ble);
-            ingredients.add(Laitue);
 
-            dr.createIngredient(ingredients);*/
+
+            List<Ingredient> ingredients = new ArrayList<>();
+            Dish bleDish = new Dish(2);
+            Dish haricotDish = new Dish(1);
+            Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE, bleDish);
+            Ingredient  haricot = new Ingredient( 9,"Haricot", 4500, CategoryEnum.VEGETABLE, haricotDish);
+            ingredients.add(ble);
+            ingredients.add(haricot);
+
+            dr.createIngredient(ingredients);
+
+            /**List<Ingredient> ingredients = new ArrayList<>();
+            Dish soupeDeLegume = new Dish(7);
+            Ingredient Oignon = new Ingredient(9, "Oignon", 4000, CategoryEnum.VEGETABLE, soupeDeLegume);
 
             Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
-            dr.saveDish(pouletFarci);
+            dr.saveDish(pouletFarci);*/
 
 
         } catch (Exception e) {
