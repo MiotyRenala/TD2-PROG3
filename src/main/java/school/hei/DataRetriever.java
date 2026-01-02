@@ -180,6 +180,26 @@ public class DataRetriever {
         }
         return ingredients;
     }
+
+    public Dish saveDish(Dish dishToSave) throws SQLException {
+        DBConnection db = new DBConnection();
+        Connection conn = db.getDBConnection();
+        String sql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::dish_type)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        try{
+            stmt.setInt(1, this.getDish().getId() );
+            stmt.setString(2,this.getDish().getName());
+            stmt.setString(3,this.getDish().getDishType().name());
+            stmt.executeUpdate();
+            System.out.println("Insertion réussie");
+
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
     
 
     public DataRetriever() {

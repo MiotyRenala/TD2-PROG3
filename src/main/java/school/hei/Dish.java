@@ -12,6 +12,12 @@ public class Dish {
         this.id = id;
     }
 
+    public Dish(int id, String name, DishTypeEnum dishType) {
+        this.id = id;
+        this.name = name;
+        this.dishType = dishType;
+    }
+
     public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredient ) {
         this.id = id;
         this.name = name;

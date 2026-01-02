@@ -20,13 +20,16 @@ public class Main {
             dr.findIngredient(2,2);
             dr.findIngredient(3,5);
 
-            List<Ingredient> ingredients = new ArrayList<>();
+            /**List<Ingredient> ingredients = new ArrayList<>();
             Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE);
             Ingredient Laitue = new Ingredient( 9,"Laitue", 2000, CategoryEnum.DAIRY);
             ingredients.add(ble);
             ingredients.add(Laitue);
 
-            dr.createIngredient(ingredients);
+            dr.createIngredient(ingredients);*/
+
+            Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
+            dr.saveDish(pouletFarci);
 
 
         } catch (Exception e) {
