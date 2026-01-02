@@ -184,21 +184,20 @@ public class DataRetriever {
     public Dish saveDish(Dish dishToSave) throws SQLException {
         DBConnection db = new DBConnection();
         Connection conn = db.getDBConnection();
-        String sql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::dish_type)";
+        String sql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::type_of_Dishes)";
         PreparedStatement stmt = conn.prepareStatement(sql);
+
         try{
-            stmt.setInt(1, this.getDish().getId() );
-            stmt.setString(2,this.getDish().getName());
-            stmt.setString(3,this.getDish().getDishType().name());
+            stmt.setInt(1, dishToSave.getId() );
+            stmt.setString(2,dishToSave.getName());
+            stmt.setString(3,dishToSave.getDishType().name());
             stmt.executeUpdate();
-            System.out.println("Insertion réussie");
 
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
+        return dishToSave;
     }
     
 
