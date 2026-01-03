@@ -126,6 +126,8 @@ public class DataRetriever {
 
             }
 
+            conn.close();
+
 
 
         } catch (SQLException e) {
@@ -167,6 +169,8 @@ public class DataRetriever {
                 stmt.executeBatch();
                 conn.commit();
                 System.out.println("Insertion réussie");
+
+                conn.close();
 
             }
 
@@ -213,13 +217,13 @@ public class DataRetriever {
     public List<Dish> findDishsByIngredientName(String IngredientName){
         DBConnection db = new DBConnection();
         String sql = "SELECT dish.id, dish.name, dish.dish_type from dish INNER JOIN ingredient on dish.id =" +
-                "ingredient.id_dish where ingredient.name = ?";
+                "ingredient.id_dish where ingredient.name ilike ?";
         List<Dish> dishInHere = new ArrayList<Dish>();
 
         try {
             Connection conn = db.getDBConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, IngredientName);
+            stmt.setString(1, "%"+IngredientName+"%");
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
@@ -234,12 +238,17 @@ public class DataRetriever {
             System.out.println(dishInHere);
 
             
-
+            conn.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return dishInHere;
+    }
+
+    public List<Ingredient> findIngredientByCriteria(String ingredientName, CategoryEnum category, String dishName, int page,
+                                                     int size){
+
     }
 
 

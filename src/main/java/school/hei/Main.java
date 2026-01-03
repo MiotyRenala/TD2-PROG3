@@ -39,7 +39,7 @@ public class Main {
             Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
             dr.saveDish(pouletFarci);*/
 
-            dr.findDishsByIngredientName("Laitue");
+            dr.findDishsByIngredientName("%EUR%");
 
 
         } catch (Exception e) {
