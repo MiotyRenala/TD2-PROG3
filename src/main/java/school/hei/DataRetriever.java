@@ -248,6 +248,40 @@ public class DataRetriever {
 
     public List<Ingredient> findIngredientByCriteria(String ingredientName, CategoryEnum category, String dishName, int page,
                                                      int size){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT ingredient.id, ingredient.name, ingredient.price, ingredient.category from ingredient inner join dish" +
+                " on ingredient.id_dish = dish.id where ingredient.name = ? and ingredient.category::text = ? and" +
+                " dish.name = ? LIMIT ? OFFSET ?";
+        List<Ingredient> ingredientList = new ArrayList<>();
+
+        try{
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, ingredientName);
+            stmt.setString(2, String.valueOf(category));
+            stmt.setString(3, dishName);
+            stmt.setInt(4, size);
+            stmt.setInt(5, (page-1)*size);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                String name = rs.getString("name");
+                Double price = rs.getDouble("price");
+                String categoryString = rs.getString("category");
+                CategoryEnum categoryEnum = CategoryEnum.valueOf(categoryString);
+
+                Ingredient toIngredientList = new Ingredient(id, name, price, categoryEnum);
+
+                ingredientList.add(toIngredientList);
+
+            }
+            System.out.println(ingredientList);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ingredientList;
 
     }
 

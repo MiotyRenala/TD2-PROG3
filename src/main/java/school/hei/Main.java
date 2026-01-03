@@ -40,6 +40,7 @@ public class Main {
             dr.saveDish(pouletFarci);*/
 
             dr.findDishsByIngredientName("%EUR%");
+            dr.findIngredientByCriteria("Laitue", CategoryEnum.VEGETABLE, "Salade Fraîche", 1,1);
 
 
         } catch (Exception e) {
