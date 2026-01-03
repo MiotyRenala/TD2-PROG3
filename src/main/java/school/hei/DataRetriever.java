@@ -188,7 +188,7 @@ public class DataRetriever {
 //        DBConnection db = new DBConnection();
 //        Connection conn = db.getDBConnection();
 //        String createDishsql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::type_of_Dishes)";
-//        //String getIngredientsql ="INSERT INTO ingredient(id,name,price, category, id_dish) VALUES (?,?,?,?::ingredient_category,?)";
+//        String getIngredientsql ="INSERT INTO ingredient(id,name,price, category, id_dish) VALUES (?,?,?,?::ingredient_category,?)";
 //
 //        conn.setAutoCommit(false); // transaction
 //
@@ -209,18 +209,39 @@ public class DataRetriever {
 //        }
 //        return dishToSave;
 //    }
-//
-//    public List<Dish> findDishsByIngredientName(String IngredientName){
-//        DBConnection db = new DBConnection();
-//        String sql = "SELECT "
-//        try {
-//            Connection conn = db.getDBConnection();
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
+
+    public List<Dish> findDishsByIngredientName(String IngredientName){
+        DBConnection db = new DBConnection();
+        String sql = "SELECT dish.id, dish.name, dish.dish_type from dish INNER JOIN ingredient on dish.id =" +
+                "ingredient.id_dish where ingredient.name = ?";
+        List<Dish> dishInHere = new ArrayList<Dish>();
+
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, IngredientName);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                String name = rs.getString("name");
+                String dish_type = rs.getString("dish_type");
+                DishTypeEnum dishTypeEnum = DishTypeEnum.valueOf(dish_type);
+                Dish dishofIngredient = new Dish(id, name, dishTypeEnum);
+                dishInHere.add(dishofIngredient);
+            }
+
+            System.out.println(dishInHere);
+
+            
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dishInHere;
+    }
+
 
     public DataRetriever() {
 
