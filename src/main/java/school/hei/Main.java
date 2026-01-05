@@ -41,7 +41,8 @@ public class Main {
 
             dr.findDishsByIngredientName("%EUR%");
             dr.findIngredientByCriteria("Laitue", CategoryEnum.VEGETABLE, "Salade Fraîche", 1,1);
-
+            Dish PorcFarci = new Dish(8, "Porc Farci", DishTypeEnum.MAIN);
+            dr.tryINSERT(PorcFarci);
 
         } catch (Exception e) {
             e.printStackTrace();// sout pour les exceptions

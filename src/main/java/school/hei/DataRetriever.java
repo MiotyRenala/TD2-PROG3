@@ -285,6 +285,24 @@ public class DataRetriever {
 
     }
 
+    public Dish tryINSERT(Dish dish){
+        DBConnection db = new DBConnection();
+        String sql = "INSERT INTO Dish(id, name, dish_type ) VALUES (?,?,?::type_of_dishes)";
+
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, dish.getId());;
+            stmt.setString(2, dish.getName());
+            stmt.setString(3, String.valueOf(dish.getDishType()));
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dish;
+    }
+
 
     public DataRetriever() {
 
