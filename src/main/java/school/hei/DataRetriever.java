@@ -111,6 +111,8 @@ public class DataRetriever {
 
     }
 
+    //BEFORE CREATING AN INGREDIENT
+
     public List<String> getAllIngredient() throws SQLException{
         DBConnection db = new DBConnection();
         String sql = "Select id, name, price, category, id_dish from ingredient";
@@ -174,9 +176,6 @@ public class DataRetriever {
 
             }
 
-
-
-
         }
         catch (Exception e){
             conn.rollback();
@@ -186,108 +185,52 @@ public class DataRetriever {
         return ingredients;
     }
 
-    public List<Ingredient>createIngredient2(List<Ingredient> newIngredient) throws SQLException {
+    public Dish getDishByCriteria(String name, DishTypeEnum dishType) throws SQLException {
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO ingredient(id, name, price, category, id_dish) VALUES(?, ?, ?, ?::ingredient_category , ?)";
         Connection conn = db.getDBConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        List<Ingredient> ingredientList = new ArrayList<>();
-        conn.setAutoCommit(false);
+        String sql = "SELECT id, name, dish_type from dish where name = ?, dish_type = ?";
+        Dish dish = null;
         try {
-            for (Ingredient i : newIngredient) {
-                if (getAllIngredient().contains(i.getName())) {
-                    conn.rollback();
-                    System.out.println("Cet Ingredient existe déjà");
-                    throw new RuntimeException("Cet Ingredient existe déjà");
-                } else {
-                    stmt.setInt(1, i.getId());
-                    stmt.setString(2, i.getName());
-                    stmt.setDouble(3, i.getPrice());
-                    stmt.setString(4, i.getCategory().name());
-                    stmt.setInt(5, i.getDish().getId());
-                    stmt.addBatch();
-                    ingredientList.add(i);
-                }
-                stmt.executeUpdate();
-                conn.commit();
-                System.out.println("Insertion réussie");
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.setString(2, dishType.name());
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt("id");
+                String nameofDish = rs.getString("name");
+                String TypeOfDish = rs.getString("tyeOfDish");
+                DishTypeEnum dishTypeEnum = DishTypeEnum.valueOf(TypeOfDish);
+
+                dish = new Dish(id, name, dishTypeEnum);
+
             }
 
-        } catch (SQLException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
-        return ingredientList;
+        return dish;
+
     }
 
-
-    //FUNCTION TO GET DISH BY PROVIDING ITS NAME
-    public Dish getDishByName(String name) throws SQLException {
+    public Dish saveDish (Dish dishToSave) throws SQLException {
         DBConnection db = new DBConnection();
-        String sql = "SELECT dish.id, dish.name, dish.dish_type from dish where name = ?";
         Connection conn = db.getDBConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, name);
-        ResultSet rs = stmt.executeQuery();
-        while(rs.next()){
-            Integer id = rs.getInt("id");
-            String nameinDish = rs.getString("name");
-            String dishType = rs.getString("dishType");
-            DishTypeEnum dishTypeEnum = DishTypeEnum.valueOf(dishType);
+        Dish existingDish = getDishByCriteria(dishToSave.getName(), dishToSave.getDishType());
 
-            Dish dish = new Dish(id, nameinDish, dishTypeEnum);
-
-        }
-        return dish;
-
-
-    }
-    //INSERTION
-    public Dish tryINSERT(Dish dish){
-        DBConnection db = new DBConnection();
-        String sql = "INSERT INTO Dish(id, name, dish_type ) VALUES (?,?,?::type_of_dishes)";
-
-        try {
-            Connection conn = db.getDBConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, dish.getId());;
-            stmt.setString(2, dish.getName());
-            stmt.setString(3, String.valueOf(dish.getDishType()));
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return dish;
-    }
-
-
-
-
-
-    public Dish saveDish(Dish dishToSave) throws SQLException {
-        DBConnection db = new DBConnection();
-        String sql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?)";
-        Dish dish = null;
-        try{
-            Connection conn = db.getDBConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, dishToSave.getId());
+        if(existingDish == null){
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO dish(id, name," +
+                    "dish_type) VALUES(?,?,?::type-of_dishes)");
+            stmt.setInt(1,dishToSave.getId());
             stmt.setString(2, dishToSave.getName());
             stmt.setString(3, dishToSave.getDishType().name());
-
-            PreparedStatement stmt2 = conn.prepareStatement("SELECT dish.id, dish.name, dish.dish_type" +
-                    "from dish where id = ?");
-            ResultSet rs = stmt2.executeQuery();
-            while (rs.next()){
-                Integer id = rs.getInt(dishToSave.getId());
-                String name = rs.getString(dishToSave.getName());
-                String dishType = rs.getString(dishToSave.getDishType().name());
-                if()
-            }
         }
 
-
     }
+
+
+
+
 
     public List<Dish> findDishsByIngredientName(String IngredientName){
         DBConnection db = new DBConnection();
