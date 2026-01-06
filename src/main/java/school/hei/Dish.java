@@ -3,7 +3,7 @@ package school.hei;
 import java.util.List;
 
 public class Dish {
-    private int id;
+    private Integer id;
     private String name;
     private DishTypeEnum dishType;
     private List<Ingredient> ingredient;
@@ -12,13 +12,13 @@ public class Dish {
         this.id = id;
     }
 
-    public Dish(int id, String name, DishTypeEnum dishType) {
+    public Dish(Integer id, String name, DishTypeEnum dishType) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
     }
 
-    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredient ) {
+    public Dish(Integer id, String name, DishTypeEnum dishType, List<Ingredient> ingredient ) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
@@ -35,7 +35,7 @@ public class Dish {
                 '}';
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

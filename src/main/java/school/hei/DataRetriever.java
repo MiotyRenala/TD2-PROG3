@@ -213,18 +213,96 @@ public class DataRetriever {
 
     }
 
+    public List<Ingredient> createIngredient2(List<Ingredient> newIngredient) throws SQLException{
+        DBConnection db = new DBConnection();
+        Connection conn = db.getDBConnection();
+
+        String sql = "INSERT INTO Ingredient(id, name, price, category, id_dish) VALUES(?,?,?,?::ingredient_category,?)";
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);{
+                conn.setAutoCommit(false);
+
+                for(Ingredient i : newIngredient ){
+                    if(getAllIngredient().contains(i.getName())){
+
+                    }else {
+                        stmt.setInt(1, i.getId());
+                        stmt.setString(2, i.getName());
+                        stmt.setDouble(3, i.getPrice());
+                        stmt.setString(4, i.getCategory().name());
+                        stmt.setInt(5,i.getDish().getId());
+                        stmt.addBatch();
+                        ingredients.add(i);
+
+                    }
+
+
+                }
+                stmt.executeBatch();
+                conn.commit();
+                System.out.println("Insertion réussie");
+
+                conn.close();
+
+            }
+
+        }
+        catch (Exception e){
+            conn.rollback();
+            throw new RuntimeException(e);
+
+        }
+        return ingredients;
+    }
+
     public Dish saveDish (Dish dishToSave) throws SQLException {
         DBConnection db = new DBConnection();
         Connection conn = db.getDBConnection();
         Dish existingDish = getDishByCriteria(dishToSave.getName(), dishToSave.getDishType());
 
-        if(existingDish == null){
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO dish(id, name," +
-                    "dish_type) VALUES(?,?,?::type-of_dishes)");
+        if(dishToSave.getId() == null){
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO dish(id, name, " +
+                    "dish_type) VALUES(?,?,?::type_of_dishes)");
             stmt.setInt(1,dishToSave.getId());
             stmt.setString(2, dishToSave.getName());
             stmt.setString(3, dishToSave.getDishType().name());
+            stmt.executeUpdate();
+        } else if (dishToSave.getId() != null) {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE dish set name = ?, dish_type" +
+                    " = ? where id = ?");
+            stmt.setString(1, dishToSave.getName());
+            stmt.setString(2, dishToSave.getDishType().name());
+            stmt.setInt(3, existingDish.getId());
+            stmt.executeUpdate();
+
         }
+        PreparedStatement stmt = conn.prepareStatement("UPDATE ingredient set dish_id = NULL where dish_id= ?");
+        stmt.setInt(1,dishToSave.getId());
+        stmt.executeUpdate();
+
+        for(Ingredient i : dishToSave.getIngredient()){
+            if(i.getId() == null){
+                PreparedStatement stmtToInsert = conn.prepareStatement("INSERT INTO ingredient (id, name, price, " +
+                        "category, id_dish) VALUES (?,?,?,?::ingredient_category,?)");
+                stmtToInsert.setInt(1, i.getId());
+                stmtToInsert.setString(2, i.getName());
+                stmtToInsert.setDouble(3, i.getPrice());
+                stmtToInsert.setString(4, i.getCategory().name());
+                stmtToInsert.setInt(5,dishToSave.getId());
+                stmtToInsert.executeUpdate();
+            }
+            if(i.getId() != null){
+                PreparedStatement stmtToUpdate = conn.prepareStatement("UPDATE ingredient set dish_id = ? where" +
+                        "dish_id = ?");
+                stmtToUpdate.setInt(1, dishToSave.getId());
+                stmtToUpdate.setInt(2, i.getId());
+                stmtToUpdate.executeUpdate();
+            }
+        }
+        return  dish;
+
 
     }
 

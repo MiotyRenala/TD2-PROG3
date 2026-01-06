@@ -32,11 +32,11 @@ public class Main {
 //
 //            dr.createIngredient(ingredients);
 
-            /**List<Ingredient> ingredients = new ArrayList<>();
+            //List<Ingredient> ingredients = new ArrayList<>();
             Dish soupeDeLegume = new Dish(7);
             Ingredient Oignon = new Ingredient(9, "Oignon", 4000, CategoryEnum.VEGETABLE, soupeDeLegume);
 
-            Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
+            /*Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
             dr.saveDish(pouletFarci);*/
 
             //dr.findDishsByIngredientName("%EUR%");
@@ -53,6 +53,14 @@ public class Main {
             ingredientList.add(Laitue);
             ingredientList.add(Charcuterie);
             dr.createIngredient2(ingredientList);*/
+            List<Ingredient> ingredientPorcAuMiel = new ArrayList<>();
+            Dish ViandedePorc = new Dish(9);
+            Ingredient Viande = new Ingredient(12, "Viande", 5000, CategoryEnum.ANIMAL, ViandedePorc);
+            ingredientPorcAuMiel.add(Viande);
+            ingredientPorcAuMiel.add(Oignon);
+
+            Dish PorcAuMiel = new Dish(9, "Porc au Miel", DishTypeEnum.MAIN, ingredientPorcAuMiel);
+            dr.saveDish(PorcAuMiel);
 
         } catch (Exception e) {
             e.printStackTrace();// sout pour les exceptions
