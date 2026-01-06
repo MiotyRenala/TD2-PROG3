@@ -186,33 +186,108 @@ public class DataRetriever {
         return ingredients;
     }
 
+    public List<Ingredient>createIngredient2(List<Ingredient> newIngredient) throws SQLException {
+        DBConnection db = new DBConnection();
+        String sql = "INSERT INTO ingredient(id, name, price, category, id_dish) VALUES(?, ?, ?, ?::ingredient_category , ?)";
+        Connection conn = db.getDBConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        List<Ingredient> ingredientList = new ArrayList<>();
+        conn.setAutoCommit(false);
+        try {
+            for (Ingredient i : newIngredient) {
+                if (getAllIngredient().contains(i.getName())) {
+                    conn.rollback();
+                    System.out.println("Cet Ingredient existe déjà");
+                    throw new RuntimeException("Cet Ingredient existe déjà");
+                } else {
+                    stmt.setInt(1, i.getId());
+                    stmt.setString(2, i.getName());
+                    stmt.setDouble(3, i.getPrice());
+                    stmt.setString(4, i.getCategory().name());
+                    stmt.setInt(5, i.getDish().getId());
+                    stmt.addBatch();
+                    ingredientList.add(i);
+                }
+                stmt.executeUpdate();
+                conn.commit();
+                System.out.println("Insertion réussie");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ingredientList;
+    }
 
 
-//    public Dish saveDish(Dish dishToSave) throws SQLException {
-//        DBConnection db = new DBConnection();
-//        Connection conn = db.getDBConnection();
-//        String createDishsql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?::type_of_Dishes)";
-//        String getIngredientsql ="INSERT INTO ingredient(id,name,price, category, id_dish) VALUES (?,?,?,?::ingredient_category,?)";
-//
-//        conn.setAutoCommit(false); // transaction
-//
-//        try{
-//            PreparedStatement Dishstmt = conn.prepareStatement(createDishsql);
-//            Dishstmt.setInt(1, dishToSave.getId() );
-//            Dishstmt.setString(2,dishToSave.getName());
-//            Dishstmt.setString(3,dishToSave.getDishType().name());
-//            Dishstmt.executeUpdate();
-//
-//
-//
-//
-//
-//        }
-//        catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        return dishToSave;
-//    }
+    //FUNCTION TO GET DISH BY PROVIDING ITS NAME
+    public Dish getDishByName(String name) throws SQLException {
+        DBConnection db = new DBConnection();
+        String sql = "SELECT dish.id, dish.name, dish.dish_type from dish where name = ?";
+        Connection conn = db.getDBConnection();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, name);
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()){
+            Integer id = rs.getInt("id");
+            String nameinDish = rs.getString("name");
+            String dishType = rs.getString("dishType");
+            DishTypeEnum dishTypeEnum = DishTypeEnum.valueOf(dishType);
+
+            Dish dish = new Dish(id, nameinDish, dishTypeEnum);
+
+        }
+        return dish;
+
+
+    }
+    //INSERTION
+    public Dish tryINSERT(Dish dish){
+        DBConnection db = new DBConnection();
+        String sql = "INSERT INTO Dish(id, name, dish_type ) VALUES (?,?,?::type_of_dishes)";
+
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, dish.getId());;
+            stmt.setString(2, dish.getName());
+            stmt.setString(3, String.valueOf(dish.getDishType()));
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dish;
+    }
+
+
+
+
+
+    public Dish saveDish(Dish dishToSave) throws SQLException {
+        DBConnection db = new DBConnection();
+        String sql = "INSERT INTO dish(id, name, dish_type) VALUES (?,?,?)";
+        Dish dish = null;
+        try{
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, dishToSave.getId());
+            stmt.setString(2, dishToSave.getName());
+            stmt.setString(3, dishToSave.getDishType().name());
+
+            PreparedStatement stmt2 = conn.prepareStatement("SELECT dish.id, dish.name, dish.dish_type" +
+                    "from dish where id = ?");
+            ResultSet rs = stmt2.executeQuery();
+            while (rs.next()){
+                Integer id = rs.getInt(dishToSave.getId());
+                String name = rs.getString(dishToSave.getName());
+                String dishType = rs.getString(dishToSave.getDishType().name());
+                if()
+            }
+        }
+
+
+    }
 
     public List<Dish> findDishsByIngredientName(String IngredientName){
         DBConnection db = new DBConnection();
@@ -250,15 +325,15 @@ public class DataRetriever {
                                                      int size){
         DBConnection db = new DBConnection();
         String sql = "SELECT ingredient.id, ingredient.name, ingredient.price, ingredient.category from ingredient inner join dish" +
-                " on ingredient.id_dish = dish.id where ingredient.name = ? and ingredient.category::text = ? and" +
+                " on ingredient.id_dish = dish.id where ingredient.name = ? and ingredient.category = ? :: ingredient_category and" +
                 " dish.name = ? LIMIT ? OFFSET ?";
         List<Ingredient> ingredientList = new ArrayList<>();
-
+        System.out.println(String.valueOf(category));
         try{
             Connection conn = db.getDBConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, ingredientName);
-            stmt.setString(2, String.valueOf(category));
+            stmt.setString(2, category.name());
             stmt.setString(3, dishName);
             stmt.setInt(4, size);
             stmt.setInt(5, (page-1)*size);
@@ -267,6 +342,7 @@ public class DataRetriever {
             while (rs.next()){
                 Integer id = rs.getInt("id");
                 String name = rs.getString("name");
+                System.out.println(name);
                 Double price = rs.getDouble("price");
                 String categoryString = rs.getString("category");
                 CategoryEnum categoryEnum = CategoryEnum.valueOf(categoryString);
@@ -276,7 +352,7 @@ public class DataRetriever {
                 ingredientList.add(toIngredientList);
 
             }
-            System.out.println(ingredientList);
+            System.out.println(ingredientList.size());
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -285,22 +361,61 @@ public class DataRetriever {
 
     }
 
-    public Dish tryINSERT(Dish dish){
+    //DELETE INGREDIENT
+    public void deleteIngredientbyName(String name){
         DBConnection db = new DBConnection();
-        String sql = "INSERT INTO Dish(id, name, dish_type ) VALUES (?,?,?::type_of_dishes)";
-
+        String sql = "DELETE from ingredient where name = ?";
         try {
             Connection conn = db.getDBConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, dish.getId());;
-            stmt.setString(2, dish.getName());
-            stmt.setString(3, String.valueOf(dish.getDishType()));
+            stmt.setString(1, name);
             stmt.executeUpdate();
+            System.out.println("Suppresion réussie");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    //DELETE
+
+    public void tryDELETEbyid(String name){
+        DBConnection db = new DBConnection();
+        String sql = "DELETE from dish where name = ?";
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.executeUpdate();
+            System.out.println("Suppression réussie");
+
+
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return dish;
+
+    }
+
+    //UPDATE
+    public void tryUPDATE(String newName, int id){
+        DBConnection db = new DBConnection();
+        String sql = "UPDATE dish set name = ? where id = ?";
+
+        try {
+            Connection conn = db.getDBConnection();
+            PreparedStatement stmt= conn.prepareStatement(sql);
+            stmt.setString(1, newName);
+            stmt.setInt(2,id);
+
+            stmt.executeUpdate();
+            System.out.println("UPDATE Succeed");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

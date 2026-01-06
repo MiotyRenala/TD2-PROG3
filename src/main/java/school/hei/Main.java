@@ -15,10 +15,10 @@ public class Main {
             System.out.println("Welcome Mioty");
 
             DataRetriever dr = new DataRetriever();
-            dr.findDishById(1);
+            /*dr.findDishById(1);
             //dr.findDishById(999);
             dr.findIngredient(2,2);
-            dr.findIngredient(3,5);
+            dr.findIngredient(3,5);*/
 
 
 
@@ -39,10 +39,20 @@ public class Main {
             Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
             dr.saveDish(pouletFarci);*/
 
-            dr.findDishsByIngredientName("%EUR%");
-            dr.findIngredientByCriteria("Laitue", CategoryEnum.VEGETABLE, "Salade Fraîche", 1,1);
-            Dish PorcFarci = new Dish(8, "Porc Farci", DishTypeEnum.MAIN);
-            dr.tryINSERT(PorcFarci);
+            //dr.findDishsByIngredientName("%EUR%");
+            //dr.findIngredientByCriteria("Poulet", CategoryEnum.ANIMAL, "Poulet Grillé", 1,10);
+            /*Dish PorcFarci = new Dish(8, "Porc Farci", DishTypeEnum.MAIN);
+            dr.tryINSERT(PorcFarci);*/
+            dr.deleteIngredientbyName("Salad");
+            //dr.tryUPDATE("Porc au beurre", 8);
+            /*Dish dishCharcuterie = new Dish(1);
+            Dish Laitue2 = new Dish(1);
+            Ingredient Laitue = new Ingredient(12, "Salad", 2500, CategoryEnum.VEGETABLE, Laitue2);
+            Ingredient Charcuterie = new Ingredient(11, "Charcuterie", 3900, CategoryEnum.ANIMAL, dishCharcuterie);
+            List<Ingredient> ingredientList = new ArrayList<>();
+            ingredientList.add(Laitue);
+            ingredientList.add(Charcuterie);
+            dr.createIngredient2(ingredientList);*/
 
         } catch (Exception e) {
             e.printStackTrace();// sout pour les exceptions
