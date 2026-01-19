@@ -15,10 +15,11 @@ public class Main {
             System.out.println("Welcome Mioty");
 
             DataRetriever dr = new DataRetriever();
-            /*dr.findDishById(1);
+            System.out.println("Coût total : "+ dr.findDishById(2).getTotalCost());
             //dr.findDishById(999);
-            dr.findIngredient(2,2);
-            dr.findIngredient(3,5);*/
+            //dr.findIngredient(2,2);
+            //dr.findIngredient(3,5);
+
 
 
 
@@ -33,8 +34,8 @@ public class Main {
 //            dr.createIngredient(ingredients);
 
             //List<Ingredient> ingredients = new ArrayList<>();
-            Dish soupeDeLegume = new Dish(7);
-            Ingredient Oignon = new Ingredient(9, "Oignon", 4000, CategoryEnum.VEGETABLE, soupeDeLegume);
+            /*Dish soupeDeLegume = new Dish(7);
+            Ingredient Oignon = new Ingredient(9, "Oignon", 4000, CategoryEnum.VEGETABLE, soupeDeLegume);*/
 
             /*Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
             dr.saveDish(pouletFarci);*/
@@ -43,7 +44,7 @@ public class Main {
             //dr.findIngredientByCriteria("Poulet", CategoryEnum.ANIMAL, "Poulet Grillé", 1,10);
             /*Dish PorcFarci = new Dish(8, "Porc Farci", DishTypeEnum.MAIN);
             dr.tryINSERT(PorcFarci);*/
-            dr.deleteIngredientbyName("Salad");
+            //dr.deleteIngredientbyName("Salad");
             //dr.tryUPDATE("Porc au beurre", 8);
             /*Dish dishCharcuterie = new Dish(1);
             Dish Laitue2 = new Dish(1);
@@ -53,14 +54,16 @@ public class Main {
             ingredientList.add(Laitue);
             ingredientList.add(Charcuterie);
             dr.createIngredient2(ingredientList);*/
-            List<Ingredient> ingredientPorcAuMiel = new ArrayList<>();
+            /*List<Ingredient> ingredientPorcAuMiel = new ArrayList<>();
             Dish ViandedePorc = new Dish(9);
             Ingredient Viande = new Ingredient(12, "Viande", 5000, CategoryEnum.ANIMAL, ViandedePorc);
             ingredientPorcAuMiel.add(Viande);
             ingredientPorcAuMiel.add(Oignon);
 
             Dish PorcAuMiel = new Dish(9, "Porc au Miel", DishTypeEnum.MAIN, ingredientPorcAuMiel);
-            dr.saveDish(PorcAuMiel);
+            dr.saveDish(PorcAuMiel);*/
+
+
 
         } catch (Exception e) {
             e.printStackTrace();// sout pour les exceptions

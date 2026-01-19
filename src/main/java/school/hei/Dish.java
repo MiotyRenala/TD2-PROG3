@@ -1,5 +1,6 @@
 package school.hei;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dish {
@@ -7,6 +8,23 @@ public class Dish {
     private String name;
     private DishTypeEnum dishType;
     private List<Ingredient> ingredient;
+    private double totalCost;
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public Dish(Integer id, String name, DishTypeEnum dishType, List<Ingredient> ingredient, double totalCost) {
+        this.id = id;
+        this.name = name;
+        this.dishType = dishType;
+        this.ingredient = ingredient;
+        this.totalCost = totalCost;
+    }
 
     public Dish(int id) {
         this.id = id;
@@ -25,6 +43,13 @@ public class Dish {
         this.ingredient = ingredient;
     }
 
+    public Dish(Integer id, String nameDish, DishTypeEnum dishTypeEnum, List<Ingredient> ingredientfromId, Double requiredQuantity) {
+        this.id = id;
+        this.name = name;
+        this.dishType = dishType;
+        this.ingredient = ingredient;
+    }
+
     @Override
     public String toString() {
         return "Dish{" +
@@ -34,6 +59,20 @@ public class Dish {
                 ", ingredient=" + ingredient +
                 '}';
     }
+
+    public Double getDishCost(){
+        Double totalCost = 0.00;
+        for(Ingredient i: ingredient){
+            if (i.getRequiredQuantity() == null) {
+                throw new IllegalStateException(
+                        "Quantité nécessaire inconnue pour l'ingrédient : "+ i.getName()
+                );
+            }
+            totalCost += i.getPrice() * i.getRequiredQuantity();
+        }
+        return totalCost;
+    };
+
 
     public Integer getId() {
         return id;
