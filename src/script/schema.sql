@@ -15,8 +15,6 @@ CREATE TABLE Ingredient(
     name varchar(255),
     price numeric (10,2),
     category ingredient_category,
-    id_dish int,
-    CONSTRAINT fk_dish FOREIGN KEY (id_dish) REFERENCES Dish(id)
 );
 
 CREATE TABLE DishIngredient(
@@ -30,4 +28,5 @@ CREATE TABLE DishIngredient(
 );
 
 ALTER TABLE dish ADD COLUMN selling_price DOUBLE PRECISION;
+ALTER TABLE ingrdient DROP COLUMN id_dish;
 

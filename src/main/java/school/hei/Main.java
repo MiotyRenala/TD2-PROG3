@@ -17,9 +17,9 @@ public class Main {
             DataRetriever dr = new DataRetriever();
             System.out.println("Coût total : "+ dr.findDishById(2).getTotalCost());
             //dr.findDishById(999);
-            //dr.findIngredient(2,2);
-            //dr.findIngredient(3,5);
-
+            dr.findIngredient(2,2);
+            dr.findIngredient(3,5);
+            dr.getAllDish();
 
 
 

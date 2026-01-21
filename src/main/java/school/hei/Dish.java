@@ -7,6 +7,7 @@ public class Dish {
     private Integer id;
     private String name;
     private DishTypeEnum dishType;
+    private Double sellingPrice;
     private List<Ingredient> ingredient;
     private double totalCost;
 
@@ -18,6 +19,24 @@ public class Dish {
         this.totalCost = totalCost;
     }
 
+    public Double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(Double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public Dish(Integer id, String name, DishTypeEnum dishType, Double sellingPrice, List<Ingredient> ingredient) {
+        this.id = id;
+        this.name = name;
+        this.dishType = dishType;
+        this.sellingPrice = sellingPrice;
+        this.ingredient = ingredient;
+    }
+
+
+
     public Dish(Integer id, String name, DishTypeEnum dishType, List<Ingredient> ingredient, double totalCost) {
         this.id = id;
         this.name = name;
@@ -27,13 +46,15 @@ public class Dish {
     }
 
     public Dish(int id) {
+
         this.id = id;
     }
 
-    public Dish(Integer id, String name, DishTypeEnum dishType) {
+    public Dish(Integer id, String name, DishTypeEnum dishType, Double selling_price) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
+        this.sellingPrice = selling_price;
     }
 
     public Dish(Integer id, String name, DishTypeEnum dishType, List<Ingredient> ingredient ) {
@@ -72,6 +93,7 @@ public class Dish {
         }
         return totalCost;
     };
+
 
 
     public Integer getId() {
