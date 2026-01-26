@@ -23,15 +23,15 @@ public class Main {
 
 
 
-//            List<Ingredient> ingredients = new ArrayList<>();
-//            Dish bleDish = new Dish(2);
-//            Dish haricotDish = new Dish(1);
-//            Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE, bleDish);
-//            Ingredient  haricot = new Ingredient( 9,"Haricot", 4500, CategoryEnum.VEGETABLE, haricotDish);
-//            ingredients.add(ble);
-//            ingredients.add(haricot);
-//
-//            dr.createIngredient(ingredients);
+            /**List<Ingredient> ingredients = new ArrayList<>();
+            Dish bleDish = new Dish(2);
+            Dish haricotDish = new Dish(1);
+            Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE, bleDish);
+            Ingredient  haricot = new Ingredient( 9,"Haricot", 4500, CategoryEnum.VEGETABLE, haricotDish);
+            ingredients.add(ble);
+            ingredients.add(haricot);
+
+            dr.createIngredient(ingredients);*/
 
             //List<Ingredient> ingredients = new ArrayList<>();
             /*Dish soupeDeLegume = new Dish(7);
@@ -40,7 +40,7 @@ public class Main {
             /*Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
             dr.saveDish(pouletFarci);*/
 
-            //dr.findDishsByIngredientName("%EUR%");
+            dr.findDishsByIngredientName("%EUR%");
             //dr.findIngredientByCriteria("Poulet", CategoryEnum.ANIMAL, "Poulet Grillé", 1,10);
             /*Dish PorcFarci = new Dish(8, "Porc Farci", DishTypeEnum.MAIN);
             dr.tryINSERT(PorcFarci);*/

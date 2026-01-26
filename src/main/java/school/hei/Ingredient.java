@@ -1,47 +1,33 @@
 package school.hei;
 
 
+import java.util.List;
+
 public class Ingredient {
     private Integer id;
     private String name;
     private double price;
     private CategoryEnum category;
-    private Dish dish;
-    private Double requiredQuantity;
+    private List<DishIngredient> dishIngredients;
 
 
 
-    public Ingredient(Integer id, String name, double price, CategoryEnum category, Dish dish, Double requiredQuantity) {
+
+    public Ingredient(Integer id, String name, double price, CategoryEnum category, List<DishIngredient> dishIngredients) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
-        this.dish = dish;
-        this.requiredQuantity = requiredQuantity;
+        this.dishIngredients = dishIngredients;
     }
 
-
-    public Ingredient(Integer id, String name, double price, CategoryEnum category, Double requiredQuantity) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.requiredQuantity = requiredQuantity;
-    }
-
-    public Ingredient(Integer id, String name, double price, CategoryEnum category) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.category = category;
-    }
 
     public Ingredient(Integer id, String name, double price, CategoryEnum category, Dish dish) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
-        this.dish = dish;
+
     }
 
     @Override
@@ -55,18 +41,6 @@ public class Ingredient {
     }
 
 
-
-    public String getDishName(){
-        return dish.getName();
-    }
-
-    public Double getRequiredQuantity() {
-        return requiredQuantity;
-    }
-
-    public void setRequiredQuantity(Integer required_quantity) {
-        this.requiredQuantity = requiredQuantity;
-    }
 
     public Integer getId() {
         return id;
@@ -100,11 +74,4 @@ public class Ingredient {
         this.category = category;
     }
 
-    public Dish getDish() {
-        return dish;
-    }
-
-    public void setDish(Dish dish) {
-        this.dish = dish;
-    }
 }

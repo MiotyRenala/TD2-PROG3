@@ -8,7 +8,7 @@ public class Dish {
     private String name;
     private DishTypeEnum dishType;
     private Double sellingPrice;
-    private List<Ingredient> ingredient;
+    private List<DishIngredient> dishIngredients;
     private double totalCost;
 
     public double getTotalCost() {
@@ -27,21 +27,20 @@ public class Dish {
         this.sellingPrice = sellingPrice;
     }
 
-    public Dish(Integer id, String name, DishTypeEnum dishType, Double sellingPrice, List<Ingredient> ingredient) {
+    public Dish(Integer id, String name, DishTypeEnum dishType, Double sellingPrice, List<DishIngredient> dishIngredients) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
         this.sellingPrice = sellingPrice;
-        this.ingredient = ingredient;
+        this.dishIngredients = dishIngredients;
     }
 
 
 
-    public Dish(Integer id, String name, DishTypeEnum dishType, List<Ingredient> ingredient, double totalCost) {
+    public Dish(Integer id, String name, DishTypeEnum dishType, List<DishIngredient> dishIngredients, double totalCost) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
-        this.ingredient = ingredient;
         this.totalCost = totalCost;
     }
 
@@ -57,18 +56,32 @@ public class Dish {
         this.sellingPrice = selling_price;
     }
 
-    public Dish(Integer id, String name, DishTypeEnum dishType, List<Ingredient> ingredient ) {
+    public Dish(Integer id, String name, DishTypeEnum dishType, List<DishIngredient> dishIngredients ) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
-        this.ingredient = ingredient;
+        this.dishIngredients = dishIngredients;
     }
 
-    public Dish(Integer id, String nameDish, DishTypeEnum dishTypeEnum, List<Ingredient> ingredientfromId, Double requiredQuantity) {
+    public Dish(Integer id, String nameDish, DishTypeEnum dishTypeEnum, List<DishIngredient> dishIngredients, Double requiredQuantity) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
-        this.ingredient = ingredient;
+        this.dishIngredients= dishIngredients;
+    }
+
+    public Double getDishCost(){
+        Double cost = 0.00;
+        for(DishIngredient dI : dishIngredients){
+            if(dI == null){
+                throw (new RuntimeException("NULL"));
+            }
+            else {
+                cost += dI.getQuantity_required() * dI.getIngredient().getPrice();
+            }
+        }
+        return cost;
+
     }
 
     @Override
@@ -77,22 +90,12 @@ public class Dish {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dishType=" + dishType +
-                ", ingredient=" + ingredient +
+                ", selling_price=" + sellingPrice +
+                ", dishIngredient=" + dishIngredients +
                 '}';
     }
 
-    public Double getDishCost(){
-        Double totalCost = 0.00;
-        for(Ingredient i: ingredient){
-            if (i.getRequiredQuantity() == null) {
-                throw new IllegalStateException(
-                        "Quantité nécessaire inconnue pour l'ingrédient : "+ i.getName()
-                );
-            }
-            totalCost += i.getPrice() * i.getRequiredQuantity();
-        }
-        return totalCost;
-    };
+
 
 
 
@@ -120,11 +123,4 @@ public class Dish {
         this.dishType = dishType;
     }
 
-    public List<Ingredient> getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(List<Ingredient> ingredient) {
-        this.ingredient = ingredient;
-    }
 }
