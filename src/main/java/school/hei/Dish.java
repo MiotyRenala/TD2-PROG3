@@ -27,6 +27,11 @@ public class Dish {
         this.sellingPrice = sellingPrice;
     }
 
+    public Dish(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Dish(Integer id, String name, DishTypeEnum dishType, Double sellingPrice, List<DishIngredient> dishIngredients) {
         this.id = id;
         this.name = name;
@@ -42,6 +47,7 @@ public class Dish {
         this.name = name;
         this.dishType = dishType;
         this.totalCost = totalCost;
+        this.dishIngredients = dishIngredients;
     }
 
     public Dish(int id) {

@@ -26,9 +26,22 @@ public class DishIngredient {
         this.unit = unit;
     }
 
+    @Override
+    public String toString() {
+        return "DishIngredient{" +
+                "id=" + id +
+                ", dish=" + dish +
+                ", ingredient=" + ingredient +
+                ", quantity_required=" + quantity_required +
+                ", unit=" + unit +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
+
+
 
     public void setId(Integer id) {
         this.id = id;

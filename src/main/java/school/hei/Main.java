@@ -15,23 +15,22 @@ public class Main {
             System.out.println("Welcome Mioty");
 
             DataRetriever dr = new DataRetriever();
+            dr.getdishIngredientFromid_dish(1);
             System.out.println("Coût total : "+ dr.findDishById(2).getTotalCost());
             //dr.findDishById(999);
             dr.findIngredient(2,2);
             dr.findIngredient(3,5);
-            dr.getAllDish();
+            //dr.getAllDish();
 
 
 
-            /**List<Ingredient> ingredients = new ArrayList<>();
-            Dish bleDish = new Dish(2);
-            Dish haricotDish = new Dish(1);
-            Ingredient ble = new Ingredient(10, "blé", 2000, CategoryEnum.VEGETABLE, bleDish);
-            Ingredient  haricot = new Ingredient( 9,"Haricot", 4500, CategoryEnum.VEGETABLE, haricotDish);
+            List<Ingredient> ingredients = new ArrayList<>();
+            Ingredient ble = new Ingredient(12, "Poireau", 1000, CategoryEnum.VEGETABLE);
+            Ingredient  haricot = new Ingredient( 13,"Farine", 2000, CategoryEnum.VEGETABLE);
             ingredients.add(ble);
             ingredients.add(haricot);
 
-            dr.createIngredient(ingredients);*/
+            dr.createIngredient(ingredients);
 
             //List<Ingredient> ingredients = new ArrayList<>();
             /*Dish soupeDeLegume = new Dish(7);
@@ -40,7 +39,7 @@ public class Main {
             /*Dish pouletFarci = new Dish(6, "Poulet farci", DishTypeEnum.MAIN);
             dr.saveDish(pouletFarci);*/
 
-            dr.findDishsByIngredientName("%EUR%");
+            //dr.findDishsByIngredientName("%EUR%");
             //dr.findIngredientByCriteria("Poulet", CategoryEnum.ANIMAL, "Poulet Grillé", 1,10);
             /*Dish PorcFarci = new Dish(8, "Porc Farci", DishTypeEnum.MAIN);
             dr.tryINSERT(PorcFarci);*/

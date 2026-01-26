@@ -11,7 +11,14 @@ public class Ingredient {
     private List<DishIngredient> dishIngredients;
 
 
+    public Ingredient(Integer id) {
+        this.id = id;
+    }
 
+    public Ingredient(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Ingredient(Integer id, String name, double price, CategoryEnum category, List<DishIngredient> dishIngredients) {
         this.id = id;
@@ -22,7 +29,7 @@ public class Ingredient {
     }
 
 
-    public Ingredient(Integer id, String name, double price, CategoryEnum category, Dish dish) {
+    public Ingredient(Integer id, String name, double price, CategoryEnum category) {
         this.id = id;
         this.name = name;
         this.price = price;
