@@ -16,7 +16,16 @@ public class Main {
 
             DataRetriever dr = new DataRetriever();
             dr.getdishIngredientFromid_dish(1);
+            System.out.println("Coût total : "+ dr.findDishById(1).getTotalCost());
+            System.out.println("Marge brute : " + dr.findDishById(1).getGrossMargin());
             System.out.println("Coût total : "+ dr.findDishById(2).getTotalCost());
+            System.out.println("Marge brute : " + dr.findDishById(2).getGrossMargin());
+            //System.out.println("Coût total : "+ dr.findDishById(3).getTotalCost());
+            //System.out.println("Marge brute : " + dr.findDishById(3).getGrossMargin());
+            System.out.println("Coût total : "+ dr.findDishById(4).getTotalCost());
+            System.out.println("Marge brute : " + dr.findDishById(4).getGrossMargin());
+            System.out.println("Coût total : "+ dr.findDishById(5).getTotalCost());
+            System.out.println("Marge brute : " + dr.findDishById(5).getGrossMargin());
             //dr.findDishById(999);
             dr.findIngredient(2,2);
             dr.findIngredient(3,5);

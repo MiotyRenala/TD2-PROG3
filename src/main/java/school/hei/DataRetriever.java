@@ -230,9 +230,10 @@ public class DataRetriever {
 
 
     }
-        //Vérifier si un plat existe
+
+    //Vérifier si un plat existe
     public boolean existingDish(Dish dish) throws SQLException {
-        if(getAllDish().contains(dish)){
+        if (getAllDish().contains(dish)) {
             return true;
         }
         return false;
@@ -248,7 +249,7 @@ public class DataRetriever {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, dish.getId());
         ResultSet rs = stmt.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
             Integer id = rs.getInt("id");
             Integer idDish = rs.getInt("id_dish");
             Dish dish1 = new Dish(idDish);
@@ -267,41 +268,73 @@ public class DataRetriever {
     }
 
 
-    public Dish SaveDish (Dish dishToSave) throws SQLException {
-        DBConnection db = new DBConnection();
-        Connection conn = db.getDBConnection();
-
-        if(existingDish(dishToSave)){
-            PreparedStatement updateDish = conn.prepareStatement("UPDATE dish set name = ?, dish_type = ?, selling_price = ?" +
-                    " where id = ? ");
-            updateDish.setString(1, dishToSave.getName());
-            updateDish.setString(2, dishToSave.getDishType().name());
-            updateDish.setDouble(3, dishToSave.getSellingPrice());
-            updateDish.setInt(4, dishToSave.getId());
-            updateDish.executeUpdate();
-            if(getDishIngredient(dishToSave).isEmpty()){
-                PreparedStatement deleteRelation = conn.prepareStatement("DELETE from dishIngredient where id_dish = ?");
-                deleteRelation.setInt(1, dishToSave.getId());
-                deleteRelation.executeUpdate();
-            }
-            else{
-                PreparedStatement updateRelation = conn.prepareStatement("UPDATE ")
-            }
-        }
-        else {
-            PreparedStatement createDish = conn.prepareStatement("INSERT INTO dish (id, name, dish_type, selling_price) VALUES " +
-                    "(?, ?, ? :: type_of_dishes, ?)");
-            createDish.setInt(1, dishToSave.getId());
-            createDish.setString(2, dishToSave.getName());
-            createDish.setString(3, dishToSave.getDishType().name());
-            createDish.setDouble(4, dishToSave.getSellingPrice());
-            createDish.executeUpdate();
-        }
-
-    }
-
-
 }
+//
+//    public List<Ingredient> getIngredientListFromDish (Dish dish) throws SQLException {
+//        DBConnection db= new DBConnection();
+//        Connection conn = db.getDBConnection();
+//        List<Ingredient> ingredientList = new ArrayList<>();
+//        String sql = " select i.id, i.name from dishIngredient dI inner join ingredient i on i.id = " +
+//                "dI.id_ingredient inner join dish d on d.id = dI.id_dish where d.id = ?";
+//
+//        try {
+//            PreparedStatement stmt = conn.prepareStatement(sql);
+//            stmt.setInt(1, dish.getId());
+//
+//            ResultSet rs = stmt.executeQuery();
+//            while (rs.next()){
+//                Integer id = rs.getInt("id");
+//                String name = rs.getString("name");
+//                Ingredient ingredient = new Ingredient(id, name);
+//                ingredientList.add(ingredient);
+//            }
+//
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return ingredientList;
+//
+//    }
+//
+//
+//    public Dish SaveDish (Dish dishToSave) throws SQLException {
+//        DBConnection db = new DBConnection();
+//        Connection conn = db.getDBConnection();
+//
+//        if(existingDish(dishToSave)){
+//            PreparedStatement updateDish = conn.prepareStatement("UPDATE dish set name = ?, dish_type = ?, selling_price = ?" +
+//                    " where id = ? ");
+//            updateDish.setString(1, dishToSave.getName());
+//            updateDish.setString(2, dishToSave.getDishType().name());
+//            updateDish.setDouble(3, dishToSave.getSellingPrice());
+//            updateDish.setInt(4, dishToSave.getId());
+//            updateDish.executeUpdate();
+//            if(getDishIngredient(dishToSave).isEmpty()){
+//                PreparedStatement deleteRelation = conn.prepareStatement("DELETE from dishIngredient where id_dish = ?");
+//                deleteRelation.setInt(1, dishToSave.getId());
+//                deleteRelation.executeUpdate();
+//            }
+//            else{
+//                PreparedStatement updateRelation = conn.prepareStatement("UPDATE dishIngredient set id_ingredient = ? where id_dish = ?");
+//                updateRelation.setInt(1, getDishIngredient(dishToSave).getFirst().getId());
+//                updateRelation.setInt(2, dishToSave.getId());
+//            }
+//        }
+//        else {
+//            PreparedStatement createDish = conn.prepareStatement("INSERT INTO dish (id, name, dish_type, selling_price) VALUES " +
+//                    "(?, ?, ? :: type_of_dishes, ?)");
+//            createDish.setInt(1, dishToSave.getId());
+//            createDish.setString(2, dishToSave.getName());
+//            createDish.setString(3, dishToSave.getDishType().name());
+//            createDish.setDouble(4, dishToSave.getSellingPrice());
+//            createDish.executeUpdate();
+//        }
+//
+//    }
+
+
+//}
 
 //
 //

@@ -90,6 +90,21 @@ public class Dish {
 
     }
 
+    public Double getGrossMargin(){
+        Double margin = 0.00;
+        Double cost = 0.00;
+        for(DishIngredient dI : dishIngredients ){
+            if(dI.getDish().sellingPrice == null){
+                throw (new RuntimeException("NULL"));
+            }
+            else {
+                cost += dI.getQuantity_required() * dI.getIngredient().getPrice();
+                margin = dI.getDish().sellingPrice - cost;
+            }
+        }
+       return margin;
+    }
+
     @Override
     public String toString() {
         return "Dish{" +
