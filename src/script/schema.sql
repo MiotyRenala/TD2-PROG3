@@ -32,3 +32,15 @@ ALTER TABLE ingredient DROP COLUMN id_dish;
 
 ALTER TABLE ingredient DROP COLUMN required_quantity;
 
+create type  mouvement_type as enum('IN', 'OUT');
+
+CREATE TABLE StockMovement(
+    id serial primary key ,
+    id_ingredient int,
+    quantity numeric (10,2),
+    type mouvement_type,
+    unit unit_type,
+    creation_datetime timestamp;
+    CONSTRAINT fk_id_ingredient FOREIGN KEY (id_ingredient) REFERENCES Ingredient(id)
+
+);

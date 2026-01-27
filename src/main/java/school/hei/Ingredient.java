@@ -1,6 +1,7 @@
 package school.hei;
 
 
+import java.time.Instant;
 import java.util.List;
 
 public class Ingredient {
@@ -9,7 +10,12 @@ public class Ingredient {
     private double price;
     private CategoryEnum category;
     private List<DishIngredient> dishIngredients;
+    private List<StockMovement> stockMovementList;
 
+
+    public StockValue getStockValueAt(Instant t){
+        return stockMovementList.getFirst().getValue();
+    }
 
     public Ingredient(Integer id) {
         this.id = id;
@@ -18,6 +24,17 @@ public class Ingredient {
     public Ingredient(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+
+
+    public Ingredient(Integer id, String name, double price, CategoryEnum category, List<DishIngredient> dishIngredients, List<StockMovement> stockMovementList) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.dishIngredients = dishIngredients;
+        this.stockMovementList = stockMovementList;
     }
 
     public Ingredient(Integer id, String name, double price, CategoryEnum category, List<DishIngredient> dishIngredients) {
@@ -47,7 +64,21 @@ public class Ingredient {
                 '}';
     }
 
+    public List<StockMovement> getStockMovementList() {
+        return stockMovementList;
+    }
 
+    public void setStockMovementList(List<StockMovement> stockMovementList) {
+        this.stockMovementList = stockMovementList;
+    }
+
+    public List<DishIngredient> getDishIngredients() {
+        return dishIngredients;
+    }
+
+    public void setDishIngredients(List<DishIngredient> dishIngredients) {
+        this.dishIngredients = dishIngredients;
+    }
 
     public Integer getId() {
         return id;
