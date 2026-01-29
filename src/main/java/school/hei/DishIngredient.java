@@ -10,6 +10,12 @@ public class DishIngredient {
     private Double quantity_required;
     private UnitEnum unit;
 
+    public DishIngredient( Ingredient ingredient, Double quantity_required, UnitEnum unit) {
+        this.ingredient = ingredient;
+        this.quantity_required = quantity_required;
+        this.unit = unit;
+    }
+
     public DishIngredient(Integer id, Dish dish, Ingredient ingredient, Double quantity_required, UnitEnum unit, List<DishIngredient> dishIngredients) {
         this.id = id;
         this.dish = dish;
@@ -36,6 +42,7 @@ public class DishIngredient {
                 ", unit=" + unit +
                 '}';
     }
+
 
     public Integer getId() {
         return id;

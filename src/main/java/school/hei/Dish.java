@@ -32,6 +32,13 @@ public class Dish {
         this.name = name;
     }
 
+    public Dish(String name, DishTypeEnum dishType, Double sellingPrice, List<DishIngredient> dishIngredients) {
+        this.name = name;
+        this.dishType = dishType;
+        this.sellingPrice = sellingPrice;
+        this.dishIngredients = dishIngredients;
+    }
+
     public Dish(Integer id, String name, DishTypeEnum dishType, Double sellingPrice, List<DishIngredient> dishIngredients) {
         this.id = id;
         this.name = name;
@@ -117,8 +124,17 @@ public class Dish {
     }
 
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public List<DishIngredient> getDishIngredients() {
+        return dishIngredients;
+    }
 
+    public void setDishIngredients(List<DishIngredient> dishIngredients) {
+        this.dishIngredients = dishIngredients;
+    }
 
     public Integer getId() {
         return id;

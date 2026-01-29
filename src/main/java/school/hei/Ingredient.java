@@ -3,18 +3,32 @@ package school.hei;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Ingredient {
     private Integer id;
     private String name;
-    private double price;
+    private Double price;
     private CategoryEnum category;
     private List<DishIngredient> dishIngredients;
     private List<StockMovement> stockMovementList;
 
 
     public StockValue getStockValueAt(Instant t){
-        return stockMovementList.getFirst().getValue();
+        if (stockMovementList == null) return null;
+
+        Map<Unit, List<StockMovement>> unitSet = stockMovementList.stream()
+                .collect(Collectors.groupingBy(StockMovement stockMovement -> stockMovement.getValue().getUnit()));
+        if(unitSet.keySet().size() > 1) {
+            throw new RuntimeException("Multiple unit found and not handle for conversion");
+        }
+
+        List<StockMovement> stockMovements = stockMovementList.stream()
+                .filter(StockMovement stockMovement -> !stockMovement.getCreationDateTime().isAfter(t))
+                .toList();
+
+
     }
 
     public Ingredient(Integer id) {
@@ -28,7 +42,7 @@ public class Ingredient {
 
 
 
-    public Ingredient(Integer id, String name, double price, CategoryEnum category, List<DishIngredient> dishIngredients, List<StockMovement> stockMovementList) {
+    public Ingredient(Integer id, String name, Double price, CategoryEnum category, List<DishIngredient> dishIngredients, List<StockMovement> stockMovementList) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -37,7 +51,7 @@ public class Ingredient {
         this.stockMovementList = stockMovementList;
     }
 
-    public Ingredient(Integer id, String name, double price, CategoryEnum category, List<DishIngredient> dishIngredients) {
+    public Ingredient(Integer id, String name, Double price, CategoryEnum category, List<DishIngredient> dishIngredients) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -46,7 +60,7 @@ public class Ingredient {
     }
 
 
-    public Ingredient(Integer id, String name, double price, CategoryEnum category) {
+    public Ingredient(Integer id, String name, Double price, CategoryEnum category) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -96,11 +110,11 @@ public class Ingredient {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

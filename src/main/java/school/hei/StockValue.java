@@ -9,6 +9,10 @@ public class StockValue {
         this.unit = unit;
     }
 
+    public StockValue() {
+
+    }
+
     public Double getQuantity() {
         return quantity;
     }

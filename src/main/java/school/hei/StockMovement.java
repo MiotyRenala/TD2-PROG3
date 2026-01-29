@@ -5,16 +5,22 @@ import java.time.Instant;
 
 public class StockMovement {
     private Integer id;
+    private Ingredient ingredient;
     private StockValue value;
     private MovementTypeEnum type;
     private Instant creationDateTime;
 
 
-    public StockMovement(Integer id, StockValue value, MovementTypeEnum type, Instant creationDateTime) {
+    public StockMovement(Integer id, Ingredient ingredient, StockValue value, MovementTypeEnum type, Instant creationDateTime) {
         this.id = id;
+        this.ingredient = ingredient;
         this.value = value;
         this.type = type;
         this.creationDateTime = creationDateTime;
+    }
+
+    public StockMovement() {
+
     }
 
     public Integer getId() {
@@ -23,6 +29,14 @@ public class StockMovement {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     public StockValue getValue() {

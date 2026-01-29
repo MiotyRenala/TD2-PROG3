@@ -22,14 +22,14 @@ public class Main {
             System.out.println("Marge brute : " + dr.findDishById(2).getGrossMargin());
             //System.out.println("Coût total : "+ dr.findDishById(3).getTotalCost());
             //System.out.println("Marge brute : " + dr.findDishById(3).getGrossMargin());
-            System.out.println("Coût total : "+ dr.findDishById(4).getTotalCost());
+            /**System.out.println("Coût total : "+ dr.findDishById(4).getTotalCost());
             System.out.println("Marge brute : " + dr.findDishById(4).getGrossMargin());
             System.out.println("Coût total : "+ dr.findDishById(5).getTotalCost());
             System.out.println("Marge brute : " + dr.findDishById(5).getGrossMargin());
             //dr.findDishById(999);
             dr.findIngredient(2,2);
             dr.findIngredient(3,5);
-            //dr.getAllDish();
+            //dr.getAllDish();*/
 
 
 
@@ -39,7 +39,17 @@ public class Main {
             ingredients.add(ble);
             ingredients.add(haricot);
 
-            dr.createIngredient(ingredients);
+           // dr.createIngredient(ingredients);
+
+            List<DishIngredient> ingredientVaryaminanana = new ArrayList<>();
+            DishIngredient vary = new DishIngredient(ble, 0.5, UnitEnum.KG );
+            DishIngredient varyBle = new DishIngredient(haricot, 0.2, UnitEnum.KG);
+            ingredientVaryaminanana.add(vary);
+            ingredientVaryaminanana.add(varyBle);
+
+
+            Dish Varyamin_Anana = new Dish(9,"Vary amin'anana", DishTypeEnum.MAIN, 5000.00, ingredientVaryaminanana );
+            dr.saveDish(Varyamin_Anana);
 
             //List<Ingredient> ingredients = new ArrayList<>();
             /*Dish soupeDeLegume = new Dish(7);

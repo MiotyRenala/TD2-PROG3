@@ -44,3 +44,18 @@ CREATE TABLE StockMovement(
     CONSTRAINT fk_id_ingredient FOREIGN KEY (id_ingredient) REFERENCES Ingredient(id)
 
 );
+
+CREATE TABLE "Order"(
+    id serial primary key,
+    reference varchar(50),
+    creation_datetime timestamp
+);
+
+CREATE TABLE DishOrder(
+    id serial primary key,
+    id_order int,
+    id_dish int,
+    quantity numeric (10,2),
+    CONSTRAINT fk_id_order FOREIGN KEY (id_order) REFERENCES "Order"(id),
+    CONSTRAINT fk_id_dish FOREIGN KEY (id_dish) REFERENCES Dish(id)
+);
